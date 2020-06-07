@@ -1,0 +1,8 @@
+# Build directory
+build/
+# Vim temporary files
+*.swp
+*.swo
+*~
+# My file some unstructured personal thoughts
+thoughts.md

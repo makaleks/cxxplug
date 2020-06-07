@@ -1,0 +1,3 @@
+[submodule "third_party/libload"]
+	path = third_party/libload
+	url = git@github.com:makaleks/libload.git
