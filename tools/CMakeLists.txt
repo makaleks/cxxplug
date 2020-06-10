@@ -5,7 +5,6 @@ list(
     "common/parse_config.hpp"       "common/parse_config.cpp"
     "common/generation_utils.hpp"   "common/generation_utils.cpp"
     "common/predefined_symbols.hpp" "common/predefined_symbols.cpp"
-    "common/symbols_serialization.hpp"
 )
 
 list(
@@ -32,27 +31,16 @@ list(
 add_executable(cxxplug-gen-proxy ${cxxplug_gen_proxy_sources})
 
 list(
-    APPEND cxxplug_print_unwanted_symbols_sources
+    APPEND cxxplug_hide_linked_symbols_sources
     ${common_sources}
-    "cxxplug_print_unwanted_symbols.cpp"
-    "cxxplug_print_unwanted_symbols/args.hpp"
-    "cxxplug_print_unwanted_symbols/get_symbols.hpp"
-    "cxxplug_print_unwanted_symbols/get_symbols.cpp"
+    "cxxplug_hide_linked_symbols.cpp"
+    "cxxplug_hide_linked_symbols/args.hpp"
+    "cxxplug_hide_linked_symbols/get_symbols.hpp"
+    "cxxplug_hide_linked_symbols/get_symbols.cpp"
+    "cxxplug_hide_linked_symbols/hide_symbols.hpp"
+    "cxxplug_hide_linked_symbols/hide_symbols.cpp"
 )
 
 add_executable(
-    cxxplug-print-unwanted-symbols ${cxxplug_print_unwanted_symbols_sources}
-)
-
-list(
-    APPEND cxxplug_hide_symbols_sources
-    ${common_sources}
-    "cxxplug_hide_symbols.cpp"
-    "cxxplug_hide_symbols/args.hpp"
-    "cxxplug_hide_symbols/hide_symbols.hpp"
-    "cxxplug_hide_symbols/hide_symbols.cpp"
-)
-
-add_executable(
-    cxxplug-hide-symbols ${cxxplug_hide_symbols_sources}
+    cxxplug-hide-linked-symbols ${cxxplug_hide_linked_symbols_sources}
 )

@@ -52,11 +52,14 @@ static int extract_next_symbol_from_output (
     return 0;
 }
 
-std::list<std::string> get_all_symbols (Args &args) {
+std::list<std::string> get_all_symbols (
+    const std::string_view command_nm,
+    const std::string_view lib_path
+) {
     // no sort, format with <symbol-name> before Space, exported symbols only
     const char *nm_args = " --no-sort --portability --extern-only ";
-    string command = string(args.command_nm) + nm_args
-                     + args.lib_static_path.data();
+    string command = string(command_nm) + nm_args
+                     + lib_path.data();
 
     FILE *nm_output_stream = nullptr;
 
@@ -85,47 +88,11 @@ std::list<std::string> get_all_symbols (Args &args) {
     return result;
 }
 
-bool is_unwanted (const std::string &symbol, const Parsed &config) {
-    for (auto &s : config.lines_of_symbols) {
-        auto unwanted_symbol = Parsed::to_symbol(s);
-        if (unwanted_symbol == symbol) {
-            return true;
-        }
-    }
-    for (auto &predefined : PredefinedSymbols) {
-        if (predefined == symbol) {
-            return true;
-        }
-    }
-    return false;
-}
-
-
 void print_all_symbols (
-    const std::list<std::string> &all_symbols, const Parsed &config
+    const std::list<std::string> &all_symbols
 ) {
     cout << "Symbols:\n";
     for (auto &s : all_symbols) {
-        cout << "    ";
-        if (is_unwanted(s, config)) {
-            cout << "# ";
-        }
-        cout << s << "\n";
-    }
-}
-
-void remove_unwanted_symbols (
-    std::list<std::string> *all_symbols, const Parsed &config
-) {
-    list<string> &symbols = *all_symbols;
-    auto it = symbols.begin();
-
-    while (it != symbols.end()) {
-        if (is_unwanted(*it, config)) {
-            it = symbols.erase(it);
-        }
-        else {
-            it++;
-        }
+        cout << "    "  << s << "\n";
     }
 }
