@@ -12,9 +12,13 @@ endif()
 #message("nm:      " ${CMAKE_NM})
 #message("type: " ${CMAKE_BUILD_TYPE})
 
+include("output_layout.cmake")
+
 include_directories("include")
 
-include("output_layout.cmake")
+add_subdirectory("third_party")
+include_directories("${ECSTRINGS_INCLUDE_DIR}")
+
 
 add_subdirectory("include")
 #add_subdirectory("src")

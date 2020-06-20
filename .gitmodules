@@ -1,3 +1,6 @@
 [submodule "third_party/libload"]
 	path = third_party/libload
 	url = git@github.com:makaleks/libload.git
+[submodule "third_party/ecstrings"]
+	path = third_party/ecstrings
+	url = git@github.com:makaleks/ecstrings.git
