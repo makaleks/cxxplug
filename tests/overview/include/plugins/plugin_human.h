@@ -31,6 +31,9 @@ extern "C" {
 //TEST_SHARED_API const uint8_t* get_id   ();
 //
 TEST_SHARED_API const void* get_implementation_id   ();
+TEST_SHARED_API const char* get_implementation_name (
+    const char lang_iso369_3[4]
+);
 
 TEST_SHARED_API const char* get_full_name ();
 

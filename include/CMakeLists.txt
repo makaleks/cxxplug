@@ -3,7 +3,8 @@ list(
     cxxplug.hpp
     #cxxplug/
     #cxxplug/plug_loaded.hpp
-    #cxxplug/uuid.hpp
+    cxxplug/uuid.hpp
+    cxxplug/i18n_provided.hpp
     #cxxplug/load_provider.hpp
     #cxxplug/some_load_providers/libload_provider.hpp
     #cxxplug/source_provider.hpp

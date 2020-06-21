@@ -12,6 +12,7 @@ using namespace std;
 
 static const char *tuple_include_line           = "tuple";
 static const char *uuid_include_line            = "cxxplug/uuid.hpp";
+static const char *ecstrings_include_line       = "ecstrings.h";
 static const char *tuple_map_function_name      = "get_tuple_map";
 
 static void write_includes (
@@ -23,6 +24,7 @@ static void write_includes (
     out << "\n";
     out << "#include <"  << tuple_include_line << ">\n";
     out << "#include \"" << uuid_include_line  << "\"\n";
+    out << "#include \"" << ecstrings_include_line  << "\"\n";
     out << "\n";
     for (auto const &s : config.lines_of_includes) {
         out << "#include \"" << s << "\"\n";
@@ -33,12 +35,49 @@ static void write_function_interface_ids (
     ofstream &out, const Parsed &config, unsigned indent
 ) {
     write_indent(out, indent)
-            << "static constexpr Uuid "
+            << "static Uuid "
             << PredefinedSymbols[SYMBOL_GET_INTERFACE_ID] << " () {\n";
     indent += 4;
     write_indent(out, indent)
             << "return Uuid(\""
             << config.interface_uuid.name.data() << "\");\n";
+    indent -= 4;
+    write_indent(out, indent) << "}\n";
+
+    write_indent(out, indent)
+            << "static const char* "
+            << PredefinedSymbols[SYMBOL_GET_INTERFACE_NAME]
+            << " (ECStringType *lang) {\n";
+    indent += 4;
+    if (config.native_names.empty()) {
+        write_indent(out, indent)
+                << "return \"" << config.interface_name << "\";\n";
+    }
+    else {
+        write_indent(out, indent)
+                << "static const ECStringEntry names["
+                << config.native_names.size() << "] = {\n";
+        indent += 4;
+        for (
+            auto it = config.native_names.begin();
+            it != config.native_names.end();
+            it++
+        ) {
+            write_indent(out, indent)
+                    << "{{.chars=\"" << it->lang_iso369_3.chars
+                    << "\"}, \"" << it->str << "\"}";
+            if (it != prev(config.native_names.end())) {
+                out << ',';
+            }
+            out << '\n';
+        }
+        indent -= 4;
+        write_indent(out, indent)
+                << "};\n";
+        write_indent(out, indent)
+                << "return ecStringGetEntry(names, "
+                << config.native_names.size() << ", lang);\n";
+    }
     indent -= 4;
     write_indent(out, indent) << "}\n";
 }
@@ -96,6 +135,9 @@ static void write_interface (
 
     write_indent(out, indent) << "const void* (*"
             << PredefinedSymbols[SYMBOL_GET_IMPLEMENTATION_ID] << ")();\n";
+    write_indent(out, indent) << "const char* (*"
+            << PredefinedSymbols[SYMBOL_GET_IMPLEMENTATION_NAME]
+            << ")(const char lang_iso369_3[4]);\n";
 
     write_function_interface_ids(out, config, indent);
 

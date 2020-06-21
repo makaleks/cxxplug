@@ -34,6 +34,7 @@ foreach( plugin_name ${plugins_dynamic} )
     add_library("${plugin_name}" MODULE "${${plugin_name}_sources}")
     set_target_properties("${plugin_name}" PROPERTIES PREFIX "")
     target_compile_definitions("${plugin_name}" PRIVATE -DTEST_SHARED_BUILD)
+    target_link_libraries("${plugin_name}" ecstrings)
 endforeach( plugin_name ${plugins_dynamic} )
 
 # https://gitlab.kitware.com/cmake/community/-/wikis/FAQ#how-can-i-generate-a-source-file-during-the-build
@@ -53,6 +54,7 @@ add_custom_target(interface-file DEPENDS "${interface_file}")
 foreach( plugin_name ${plugins_integrated} )
     add_library("${plugin_name}" STATIC "${${plugin_name}_sources}")
     set_target_properties("${plugin_name}" PROPERTIES PREFIX "")
+    #target_link_libraries("${plugin_name}" ecstrings)
 
     unset(proxy_sources)
     list(
@@ -92,6 +94,6 @@ foreach( plugin_name ${plugins_integrated} )
         ALL DEPENDS
         "${plugin_name}_proxy${CMAKE_STATIC_LIBRARY_SUFFIX}"
     )
-
 endforeach( plugin_name ${plugins_integrated} )
+
 

@@ -85,7 +85,12 @@ static void write_const_proxy_definition (
     }
     write_indent(out, indent)
             << "." << PredefinedSymbols[SYMBOL_GET_IMPLEMENTATION_ID]
-            << " = " << PredefinedSymbols[SYMBOL_GET_IMPLEMENTATION_ID];
+            << " = " << PredefinedSymbols[SYMBOL_GET_IMPLEMENTATION_ID]
+            << ",\n";
+    write_indent(out, indent)
+            << "." << PredefinedSymbols[SYMBOL_GET_IMPLEMENTATION_NAME]
+            << " = " << PredefinedSymbols[SYMBOL_GET_IMPLEMENTATION_NAME]
+            << "\n";
 
     out << "};\n";
 }

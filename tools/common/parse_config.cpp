@@ -30,6 +30,7 @@ struct LineType {
     bool (*checker)(const string&);
     list<string> &lines;
     const char *err_msg;
+    bool is_optional = false;
 };
 
 static bool next_or_is_wrong (
@@ -40,8 +41,11 @@ static bool next_or_is_wrong (
         return false;
     }
     else if (
-        !*is_any_found
-        || *ptr_check_wrong == prev(arr.end())
+        false == (*ptr_check_wrong)->is_optional
+        && (
+            !*is_any_found
+            || *ptr_check_wrong == prev(arr.end())
+        )
     ) {
         auto dest = *ptr_check_wrong + 1;
         if (is_second && arr.begin() != *ptr_check_wrong) {
@@ -81,10 +85,16 @@ Parsed Parsed::get_parsed_config (const std::string_view file_path) {
     );
     Uuid interface_uuid = line.c_str();
 
+    list<string> lines_of_native_names;
     list<string> lines_of_includes;
     list<string> lines_of_symbols;
 
     array checkers = {
+        LineType{
+            Parsed::is_wrong_native_name_line, lines_of_native_names,
+            "Error: not a native name format at line",
+            true // optional
+        },
         LineType{
             Parsed::is_wrong_include_line, lines_of_includes,
             "Error: not a header format at line"
@@ -112,6 +122,9 @@ Parsed Parsed::get_parsed_config (const std::string_view file_path) {
 
     return Parsed(
         move(interface_name), move(interface_uuid),
-        move(lines_of_includes), move(lines_of_symbols)
+
+        move(lines_of_native_names),
+        move(lines_of_includes),
+        move(lines_of_symbols)
     );
 }

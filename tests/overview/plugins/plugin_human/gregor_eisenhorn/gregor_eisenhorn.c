@@ -1,7 +1,13 @@
 #include "plugins/plugin_human.h"
+#include "ecstrings.h"
 
 #include <string.h>
 #include <stdint.h>
+
+static struct ECStringEntry implementation_names[] = {
+    {{.chars="eng"}, "Gregor Eisenhorn"},
+    {{.chars="rus"}, "Грегор Эйзенхорн"},
+};
 
 const void* get_implementation_id () {
     static uint8_t result [] = {
@@ -12,6 +18,14 @@ const void* get_implementation_id () {
         0x95, 0x2e, 0x09, 0x54, 0xc0, 0x37
     };
     return result;
+}
+
+const char* get_implementation_name (const char lang_iso369_3[4]) {
+    return ecStringGetEntryByChars(
+        implementation_names,
+        sizeof(implementation_names) / sizeof(*implementation_names),
+        lang_iso369_3
+    );
 }
 
 const char* get_full_name () {
