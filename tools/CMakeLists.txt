@@ -27,7 +27,6 @@ list(
     "cxxplug_gen_proxy/gen_proxy.hpp"
     "cxxplug_gen_proxy/gen_proxy.cpp"
 )
-
 add_executable(cxxplug-gen-proxy ${cxxplug_gen_proxy_sources})
 
 list(
@@ -40,7 +39,18 @@ list(
     "cxxplug_hide_linked_symbols/hide_symbols.hpp"
     "cxxplug_hide_linked_symbols/hide_symbols.cpp"
 )
-
 add_executable(
     cxxplug-hide-linked-symbols ${cxxplug_hide_linked_symbols_sources}
+)
+
+list(
+    APPEND cxxplug_gen_collected_proxies_sources
+    ${common_sources}
+    "cxxplug_gen_collected_proxies.cpp"
+    "cxxplug_gen_collected_proxies/args.hpp"
+    "cxxplug_gen_collected_proxies/gen_collection.hpp"
+    "cxxplug_gen_collected_proxies/gen_collection.cpp"
+)
+add_executable(
+    cxxplug-gen-collected-proxies ${cxxplug_gen_collected_proxies_sources}
 )
