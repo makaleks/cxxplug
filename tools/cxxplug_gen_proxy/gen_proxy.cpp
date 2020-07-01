@@ -41,7 +41,8 @@ static void write_interface_include (
 static void write_const_proxy_declaration_base (
     ofstream &out, const string &base_proxy_name, const Parsed &config
 ) {
-    out << "const " << config.interface_name << " " << base_proxy_name;
+    //out << "const " << config.interface_name << " " << base_proxy_name;
+    out << config.interface_name << " " << base_proxy_name;
 }
 
 static void write_const_proxy_declaration (
@@ -66,7 +67,7 @@ static void write_const_proxy_definition (
 ) {
     out << "\n";
     write_const_proxy_declaration_base(out, base_proxy_name, config);
-    out << " {\n";
+    out << " = {\n";
 
     unsigned indent = 4;
 

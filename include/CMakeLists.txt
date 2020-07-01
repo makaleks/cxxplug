@@ -2,13 +2,13 @@ list(
     APPEND PROJECT_HEADERS
     cxxplug.hpp
     #cxxplug/
-    #cxxplug/plug_loaded.hpp
+    cxxplug/plug_loaded.hpp
     cxxplug/uuid.hpp
     cxxplug/i18n_provided.hpp
     #cxxplug/load_provider.hpp
-    #cxxplug/some_load_providers/libload_provider.hpp
+    cxxplug/some_load_providers/libload_provider.hpp
     #cxxplug/source_provider.hpp
-    #cxxplug/some_source_providers/filesystem_shared_library_provider.hpp
+    cxxplug/some_source_providers/filesystem_dynlib_provider.hpp
 )
 
 foreach(header_path ${PROJECT_HEADERS})

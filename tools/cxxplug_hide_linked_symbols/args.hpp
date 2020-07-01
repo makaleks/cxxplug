@@ -8,6 +8,7 @@
 #include <cstring>
 
 struct Args {
+    const std::string_view symbols_lib_static_path;
     const std::string_view source_lib_static_path;
     const std::string_view destination_lib_static_path;
     const std::string_view command_nm;
@@ -17,6 +18,7 @@ struct Args {
     void print () {
         std::cout << "\
 Args:\n\
+    symbols_lib_static_path:     \""  << symbols_lib_static_path     << "\"\n\
     source_lib_static_path:      \""  << source_lib_static_path      << "\"\n\
     destination_lib_static_path: \""  << destination_lib_static_path << "\"\n\
     command_nm:                  \""  << command_nm                  << "\"\n\
@@ -25,13 +27,15 @@ Args:\n\
     }
 
     Args (
+        const char *symbols_lib_path,
         const char *source_lib_path,
         const char *destination_lib_path,
         const char *nm,
         const char *objcopy,
         bool new_verbose
     )
-        : source_lib_static_path(source_lib_path),
+        : symbols_lib_static_path(symbols_lib_path),
+          source_lib_static_path(source_lib_path),
           destination_lib_static_path(destination_lib_path),
           command_nm(nm), command_objcopy(objcopy),
           verbose(new_verbose) {
@@ -40,13 +44,14 @@ Args:\n\
         return "\
 Usage:\n\
 cxxplug-hide-linked-symbols [<VERBOSE>]\
- <source-lib-static> [<destination-lib-static>\
- [<path-to-nm-command> <path-to-objcopy-command>]]\
+ <symbols-lib-static> <source-lib-static> <destination-lib-static>\
+ [<path-to-nm-command> <path-to-objcopy-command>]\
  \n\
 ";
     }
     static bool is_argv_wrong (
         int argc, char **argv,
+        const char **symbols_lib_path,
         const char **source_lib_path,
         const char **destination_lib_path,
         const char **command_nm_ptr,
@@ -65,44 +70,35 @@ cxxplug-hide-linked-symbols [<VERBOSE>]\
             arg++;
         }
 
-        if (arg - argv + 1 >= argc) {
-            std::cerr << "Error: requires at least 1 argument.\n";
+        if (arg - argv + 3 >= argc) {
+            std::cerr << "Error: requires at least 3 arguments.\n";
             return true;
         }
 
-        if (!std::filesystem::exists(*arg)) {
-            std::cerr << "Error: Source file \""
-                      << *arg << "\" does not exists.\n";
-            return true;
-        }
-        *source_lib_path = *arg;
-        arg++;
+        unsigned i = 0;
 
-        if (arg - argv == argc) {
-            *destination_lib_path = *(arg - 1);
-        }
-        else {
-            if (
-                std::filesystem::exists(*arg)
-                && !std::filesystem::is_regular_file(*arg)
-            ) {
-                std::cerr << "Error: Destination file \""
-                          << *arg << "\" exists and not regular.\n";
+        for (i = 0; i < 2; i++) {
+            if (!std::filesystem::exists(arg[i])) {
+                std::cerr << "Error: File \""
+                          << arg[i] << "\" does not exists.\n";
                 return true;
             }
-            *destination_lib_path = *arg;
-            arg++;
+        }
+        i++; // no check for the last file
+        *symbols_lib_path     = arg[0];
+        *source_lib_path      = arg[1];
+        *destination_lib_path = arg[2];
+        arg += i;
 
-            if (arg - argv != argc) {
-                if (arg - argv + 2 > argc) {
-                    std::cerr << "Error: Paths to commands \"nm\"\
- and \"objcopy\" must be set both or none.";
-                    return true;
-                }
-                *command_nm_ptr      = arg[0];
-                *command_objcopy_ptr = arg[1];
-                arg += 2;
+        if (arg - argv != argc) {
+            if (arg - argv + 2 > argc) {
+                std::cerr << "Error: Paths to commands \"nm\"\
+and \"objcopy\" must be set both or none.";
+                return true;
             }
+            *command_nm_ptr      = arg[0];
+            *command_objcopy_ptr = arg[1];
+            arg += 2;
         }
 
         return false;

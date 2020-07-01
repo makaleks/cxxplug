@@ -14,14 +14,15 @@ endif()
 
 include("output_layout.cmake")
 
-include_directories("include")
-
 add_subdirectory("third_party")
 include_directories("${ECSTRINGS_INCLUDE_DIR}")
+include_directories("${LIBLOAD_INCLUDE_DIR}")
+
+include_directories("include")
 
 
 add_subdirectory("include")
-#add_subdirectory("src")
+add_subdirectory("src")
 
 add_subdirectory("tools")
 

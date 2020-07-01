@@ -10,6 +10,7 @@ using namespace std;
 
 int main (int argc, char **argv) {
     bool       is_verbose            = false;
+    const char *symbols_lib_path     = nullptr;
     const char *source_lib_path      = nullptr;
     const char *destination_lib_path = nullptr;
     const char *command_nm           = "nm";
@@ -19,6 +20,7 @@ int main (int argc, char **argv) {
         Args::is_argv_wrong(
             argc,
             argv,
+            &symbols_lib_path,
             &source_lib_path,
             &destination_lib_path,
             &command_nm,
@@ -33,6 +35,7 @@ int main (int argc, char **argv) {
         destination_lib_path = source_lib_path;
     }
     Args args(
+        symbols_lib_path,
         source_lib_path,
         destination_lib_path,
         command_nm,
@@ -46,7 +49,7 @@ int main (int argc, char **argv) {
 
     try {
         list<string> symbols = get_all_symbols(
-            args.command_nm, args.source_lib_static_path
+            args.command_nm, args.symbols_lib_static_path
         );
 
         if (args.verbose) {

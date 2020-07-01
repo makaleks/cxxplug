@@ -1,5 +1,13 @@
 add_subdirectory("plugin_human")
 
+list(APPEND plugins_builtin plugin_human_builtin)
+get_directory_property(
+    subdir_includes DIRECTORY "plugin_human" INCLUDE_DIRECTORIES
+)
+include_directories(${subdir_includes})
+
+set(plugins_builtin ${plugins_builtin} PARENT_SCOPE)
+
 #file(GLOB SRC_LIST RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*/*.c")
 #
 #set(OUTDIR_BACKUP "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")

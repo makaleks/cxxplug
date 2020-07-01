@@ -90,6 +90,7 @@ static void write_tuple_map (
 
     indent += 4;
     write_indent(out, indent) << "using std::make_tuple;\n\n";
+    write_indent(out, indent) << "using std::tie;\n\n";
     write_indent(out, indent) << "return make_tuple(\n";
 
     indent += 4;
@@ -102,7 +103,7 @@ static void write_tuple_map (
     ) {
         auto as_symbol = Parsed::to_symbol(*it);
         write_indent(out, indent)
-                << "make_tuple(\"" << as_symbol << "\", " << as_symbol << ")";
+                << "tie(\"" << as_symbol << "\", " << as_symbol << ")";
         if (it != itlast) {
             out << ',';
         }
