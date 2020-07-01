@@ -4,5 +4,7 @@ build/
 *.swp
 *.swo
 *~
+# My name of Vim session
+session.vim
 # My file some unstructured personal thoughts
 thoughts.md
