@@ -9,8 +9,8 @@ using namespace std;
 #include <cxxplug/some_source_providers/filesystem_dynlib_provider.hpp>
 #include <cxxplug/some_load_providers/libload_provider.hpp>
 
-#include "plugin_human_interface.hpp"
-#include "builtin/plugin_human_builtin.hpp"
+#include "cxxplug_gen/plugin_human_interface.hpp"
+#include "cxxplug_gen/builtin/plugin_human_builtin.hpp"
 
 #include <filesystem>
 
