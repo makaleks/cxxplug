@@ -28,22 +28,24 @@ list(
     "ivan_susanin"
     "gregor_eisenhorn"
 )
-# So the output will be like "ivan_susanin_proxy.a"
 
+# Dynamically-loaded
 foreach( plugin_name ${plugins_dynamic} )
     add_library("${plugin_name}" MODULE "${${plugin_name}}")
+    # So the output will be like "ivan_susanin_proxy.a"
     set_target_properties("${plugin_name}" PROPERTIES PREFIX "")
     target_compile_definitions("${plugin_name}" PRIVATE -DTEST_SHARED_BUILD)
     target_link_libraries("${plugin_name}" ecstrings)
 endforeach( plugin_name ${plugins_dynamic} )
 
+# Statically-linked
 cxxplug_gen_integrated(
     LISTS_INSIDE
     INTERFACE_CONFIG "cxxplug_interface.conf"
     INTERFACE_NAME   "plugin_human"
     IMPLEMENTATIONS  ${plugins_integrated}
 )
-# Library target object returned
+# Library target object returned, must be linked with final executable
 set(plugin_human_builtin ${CXXPLUG_INTERFACE_BUILTIN} PARENT_SCOPE)
 # Include directory with generated builtin-collection and interface headers
 # returned
