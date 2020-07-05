@@ -30,7 +30,7 @@ PluginHuman {\n\
     uuid: "   << *(Uuid*)loaded.impl.get_implementation_id() << "\n\
 \n\
     first_name:    \"" << loaded.impl.get_first_name() << "\"\n\
-    last_nale:     \"" << loaded.impl.get_last_name() << "\"\n\
+    last_name:     \"" << loaded.impl.get_last_name() << "\"\n\
     age:           "   << std::dec << (unsigned)loaded.impl.get_age() << "\n\
     work_with_int: "   << value;
     loaded.impl.work_with_int(&value);

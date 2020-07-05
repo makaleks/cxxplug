@@ -73,7 +73,7 @@ the [overview](tests/overview) will be similar to
     uuid: cf75898-a81-47fb-afe-93ccb9c8dc8c
 
     first_name:    "Ivan"
-    last_nale:     "Susanin"
+    last_name:     "Susanin"
     age:           45
     work_with_int: 10 => 0
 }
@@ -84,7 +84,7 @@ the [overview](tests/overview) will be similar to
     uuid: 241bee6f-5a6d-47d9-a98e-952e954c037
 
     first_name:    "Gregor"
-    last_nale:     " Eisenhorn"
+    last_name:     "Eisenhorn"
     age:           42
     work_with_int: 10 => 100
 }
@@ -95,7 +95,7 @@ the [overview](tests/overview) will be similar to
     uuid: 704599c7-1e21-4d1c-9491-a89b598a097
 
     first_name:    "Vasiliy"
-    last_nale:     "Pupkin"
+    last_name:     "Pupkin"
     age:           30
     work_with_int: 10 => 20
 }
@@ -192,7 +192,7 @@ PluginHuman {\n\
     uuid: "   << *(Uuid*)loaded.impl.get_implementation_id() << "\n\
 \n\
     first_name:    \"" << loaded.impl.get_first_name() << "\"\n\
-    last_nale:     \"" << loaded.impl.get_last_name() << "\"\n\
+    last_name:     \"" << loaded.impl.get_last_name() << "\"\n\
     age:           "   << std::dec << (unsigned)loaded.impl.get_age() << "\n\
     work_with_int: "   << value;
     loaded.impl.work_with_int(&value);

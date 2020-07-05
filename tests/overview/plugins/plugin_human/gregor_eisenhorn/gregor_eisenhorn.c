@@ -37,7 +37,7 @@ const char* get_first_name () {
 }
 
 const char* get_last_name () {
-    return " Eisenhorn";
+    return "Eisenhorn";
 }
 
 uint8_t get_age () {
