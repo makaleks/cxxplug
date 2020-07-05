@@ -55,12 +55,18 @@ cmake --build build
 ```
 
 Run an example:
+```sh
+cd build
+ctest .
+```
 
+or
 ```sh
 cd build/cxxplug/tests/overview
 ./overview
 ```
-the [overview](tests/overview) will be similar to
+
+the output of the last one will be similar to
 ```sh
 0: [Oh Plugin](Ivan Susanin)
 1: [Oh Plugin](Gregor Eisenhorn)

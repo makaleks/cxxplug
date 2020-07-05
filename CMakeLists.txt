@@ -28,5 +28,5 @@ add_subdirectory("scripts")
 add_subdirectory("tools")
 
 include("scripts/cxxplug_gen.cmake")
-#enable_testing()
+enable_testing()
 add_subdirectory("tests")

@@ -5,6 +5,12 @@ add_executable(overview "main.cpp")
 target_link_libraries(overview cxxplug)
 target_link_libraries(overview ${plugins_builtin})
 
+add_test(
+    NAME overview-test
+    COMMAND overview
+    WORKING_DIRECTORY "$<TARGET_FILE_DIR:overview>"
+)
+
 #target_link_libraries(overview libload_static)
 #set_target_properties(overview PROPERTIES BUILD_RPATH_USE_ORIGIN TRUE)
 
