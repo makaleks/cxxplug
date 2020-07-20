@@ -35,7 +35,7 @@ foreach( plugin_name ${plugins_dynamic} )
     # So the output will be like "ivan_susanin_proxy.a"
     set_target_properties("${plugin_name}" PROPERTIES PREFIX "")
     target_compile_definitions("${plugin_name}" PRIVATE -DTEST_SHARED_BUILD)
-    target_link_libraries("${plugin_name}" ecstrings)
+    target_link_libraries("${plugin_name}" ${ecstrings})
 endforeach( plugin_name ${plugins_dynamic} )
 
 # Statically-linked
