@@ -12,6 +12,22 @@ Provides:
 - a CMake script to produce statically-linked fasade in a single
   function call.
 
+This means that for various plugins, which implement, for example,
+`get_full_name()`, you can, respectively:
+- access all found plugins via:
+  ```C
+    CxxPlug<...> plug(...);
+    auto lst = plug.get_available();
+
+    auto loaded_1 = plug.load(lst[0]), loaded_2 = plug.load(lst[1]);
+    cout << loaded_1.impl.get_full_name() << '\n';
+    cout << loaded_2.impl.get_full_name() << '\n';
+  ```
+- link different implementations of the same interface statically, hiding
+  conflictable symbols using provided command-line tools;
+- decide, which plugins will be built-in and which are to be loaded dynamically
+  when requested - using a single CMake variable with list of sources.
+
 Requires:
 - `nm`, `objcopy`, `ld` executables - implemented by GNU or LLVM, so can work
   even on Windows, despite Microsoft not providing anything similar to
@@ -215,6 +231,7 @@ int main () {
         LoadProviderLibload
     > plug(
         "plugin_human",
+        // This array was generated using `cxxplug-gen-collected-proxies` tool
         span<PluginHumanInterface>(begin(plugin_human),end(plugin_human))
     );
 

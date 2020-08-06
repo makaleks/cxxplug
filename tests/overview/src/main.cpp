@@ -49,6 +49,7 @@ int main () {
         LoadProviderLibload
     > plug(
         "plugin_human",
+        // This array was generated using `cxxplug-gen-collected-proxies` tool
         span<PluginHumanInterface>(begin(plugin_human),end(plugin_human))
     );
 
