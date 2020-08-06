@@ -3,7 +3,7 @@
 function (cxxplug_gen_integrated)
     # Each entry of list names a list variable with source file names
     set(arg_options     "LISTS_INSIDE")
-    set(arg_values      "INTERFACE_CONFIG" "INTERFACE_NAME")
+    set(arg_values      "INTERFACE_CONFIG" "INTERFACE_NAME" "TOOLS_PATH")
     set(arg_multivalues "IMPLEMENTATIONS")
     cmake_parse_arguments(
         CXXPLUG "${arg_options}" "${arg_values}" "${arg_multivalues}" ${ARGN}
@@ -17,6 +17,29 @@ function (cxxplug_gen_integrated)
         message(
             FATAL_ERROR
             "Interface file \"${CXXPLUG_INTERFACE_CONFIG}\" does not exist."
+        )
+    endif ()
+
+    set(cxxplug_gen_interface         "cxxplug-gen-interface")
+    set(cxxplug_gen_proxy             "cxxplug-gen-proxy")
+    set(cxxplug_hide_linked_symbols   "cxxplug-hide-linked-symbols")
+    set(cxxplug_gen_collected_proxies "cxxplug-gen-collected-proxies")
+    if (DEFINED CXXPLUG_TOOLS_PATH)
+        set(
+            cxxplug_gen_interface
+            "${CXXPLUG_TOOLS_PATH}/${cxxplug_gen_interface}"
+        )
+        set(
+            cxxplug_gen_proxy
+            "${CXXPLUG_TOOLS_PATH}/${cxxplug_gen_proxy}"
+        )
+        set(
+            cxxplug_hide_linked_symbols
+            "${CXXPLUG_TOOLS_PATH}/${cxxplug_hide_linked_symbols}"
+        )
+        set(
+            cxxplug_gen_collected_proxies
+            "${CXXPLUG_TOOLS_PATH}/${cxxplug_gen_collected_proxies}"
         )
     endif ()
 
@@ -43,7 +66,7 @@ function (cxxplug_gen_integrated)
     )
     add_custom_command(
         OUTPUT  "${interface_header}"
-        COMMAND "cxxplug-gen-interface"
+        COMMAND "${cxxplug_gen_interface}"
             ARGS
                 "${CMAKE_CURRENT_SOURCE_DIR}/${CXXPLUG_INTERFACE_CONFIG}"
                 "${interface_header}"
@@ -92,7 +115,7 @@ function (cxxplug_gen_integrated)
         )
         add_custom_command(
             OUTPUT ${proxy_sources}
-            COMMAND "cxxplug-gen-proxy"
+            COMMAND "${cxxplug_gen_proxy}"
                 ARGS
                     "${CMAKE_CURRENT_SOURCE_DIR}/${CXXPLUG_INTERFACE_CONFIG}"
                     "${implementation_base_name}"
@@ -145,7 +168,7 @@ function (cxxplug_gen_integrated)
         )
         add_custom_command(
             OUTPUT "${proxy_final_output}"
-            COMMAND "cxxplug-hide-linked-symbols"
+            COMMAND "${cxxplug_hide_linked_symbols}"
                 ARGS
                     "$<TARGET_FILE:${implementation_base_name}>"
                     "${proxy_merged_output}"
@@ -184,7 +207,7 @@ function (cxxplug_gen_integrated)
     )
     add_custom_command(
         OUTPUT ${builtin_collection_sources}
-        COMMAND "cxxplug-gen-collected-proxies"
+        COMMAND "${cxxplug_gen_collected_proxies}"
             ARGS
                 "${CMAKE_CURRENT_SOURCE_DIR}/${CXXPLUG_INTERFACE_CONFIG}"
                 "${interface_name}"
