@@ -21,9 +21,9 @@ template <
     typename LoadProvider
 >
 class CxxPlug {
+    SourceProvider               source_provider_;
     std::span<PluginInterface>   builtin_plugins_;
     std::vector<PluginInterface> loaded_plugins_;
-    SourceProvider               source_provider_;
 public:
     CxxPlug(
         std::string search_path,

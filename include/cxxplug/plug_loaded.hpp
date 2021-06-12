@@ -30,8 +30,8 @@ public:
     CxxPlugLoaded(
         std::string nsource_name
     ) :
-        source_name(nsource_name),
         load_provider_(std::make_shared<LoadProvider>(nsource_name)),
+        source_name(nsource_name),
         is_builtin(false)
     {
         PlugInterface result;
