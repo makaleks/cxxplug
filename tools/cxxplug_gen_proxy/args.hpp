@@ -6,6 +6,7 @@
 #include <iostream>
 #include <filesystem>
 #include <cstring>
+#include <algorithm>
 
 struct Args {
     const std::string_view config_file_path;

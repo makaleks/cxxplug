@@ -2,6 +2,7 @@
 #include "predefined_symbols.hpp"
 
 #include <filesystem>
+#include <algorithm>
 
 using namespace std;
 

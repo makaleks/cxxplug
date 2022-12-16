@@ -7,6 +7,7 @@
 #include <filesystem>
 #include <cstring>
 #include <vector>
+#include <algorithm>
 
 struct ProxyInfo {
     std::string_view var_name;
